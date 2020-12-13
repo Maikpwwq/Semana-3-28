@@ -10,7 +10,7 @@ Proyecto de frontend y backend del módulo de inicio de sesión.
 -	Heywin Hernando Meneses Perez
 -	Carlos Eduardo Ruiz Pacheco
 -	Michael Arias Fajardo
-- Fabián Tadeo Henao escalante
+- Fabián Tadeo Henao Escalante
 ## Actividades Semana 3
 
 1. Documentar el proyecto. 
