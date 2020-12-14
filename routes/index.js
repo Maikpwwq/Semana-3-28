@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const apiRouterAuth = require('./api/auth');
-const apiRouterUser = require('./api/users');
+const apiRouterAuth = require('./api/auth.js');
+const apiRouterUser = require('./api/users.js');
 
 // Manejador Ruta /auth
 router.use('/auth', apiRouterAuth);

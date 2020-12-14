@@ -5,9 +5,7 @@ const bcrypt = require('bcryptjs');
 exports.listar = async (req, res, next) => {
     try {
         const users = await db.user.findAll();
-        res.status(200).send({ 
-            users: users
-        });
+        res.status(200).json(users);
     } catch (error) {
         res.status(500).send({
             message: 'Error ->' + error
