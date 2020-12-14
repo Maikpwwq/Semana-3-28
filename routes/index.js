@@ -4,6 +4,12 @@ const apiRouterUser = require('./api/users');
 
 // Manejador Ruta /auth
 router.use('/auth', apiRouterAuth);
-router.use('/user', apiRouterUser);
+// Manejador Ruta /users
+router.use('/users', apiRouterUser);
+
+// Rutas alternas
+/*router.get('*', (req, res)=>{
+    res.status(404).send('La pagina a la que intenta acceder no existe!'); 
+});*/
 
 module.exports = router;
