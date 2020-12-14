@@ -1,11 +1,13 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('../secret/config.js');
+
+const tokenServices = require('../services/token')
 
 // iniciarSesion
 exports.signin = async (req, res, next) => {
     try {
+        
         const user = await db.user.findOne({ 
             where: { email: req.body.email }
         });
@@ -14,16 +16,8 @@ exports.signin = async (req, res, next) => {
             const passwordIsValid = bcrypt.compareSync( req.body.password, user.password );
 
             if (passwordIsValid) {
-                const token = jwt.sign({
-                    id: user.id,
-                    name: user.userName,
-                    email: user.email,
-                    rol: user.rol
-                }, config.secret , {
-                    // Expira en x segundos
-                    expiresIn: 86400,
-                });
-
+                const token = await tokenServices.encode( user );
+                
                 res.status(200).send({
                     auth: true,
                     accessToken: token
