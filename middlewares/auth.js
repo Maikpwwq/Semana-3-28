@@ -10,8 +10,10 @@ module.exports = {
                 message: 'No hay token!!'
             });
         } else {
-            const response = await tokenServices.decode(req.headers.token);
-            if (response.rol === "Administrador") {
+            const validatioResponse = await tokenServices.decode(req.headers.token);
+            
+            // Si el rol es administrador continuar
+            if (validatioResponse.rol === "Administrador") {
                 next()
             } else {
                 return res.status(403).send({

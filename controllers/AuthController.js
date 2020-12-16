@@ -1,22 +1,19 @@
-const db = require('../models');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
+const { users } = require('../models');
+//const db = require('../models'); 
+//const Users = require('../models');
+const bcrypt = require('bcryptjs'); 
 const tokenServices = require('../services/token')
 
 // iniciarSesion
 exports.signin = async (req, res, next) => {
-    try {
-        
-        const user = await db.user.findOne({ 
-            where: { email: req.body.email }
-        });
+    try {        
+        const userSignin = await users.findOne({where: {email: req.body.email}});          
 
-        if (user) {
-            const passwordIsValid = bcrypt.compareSync( req.body.password, user.password );
+        if ( userSignin ) {
+            const passwordIsValid = bcrypt.compareSync( req.body.password, userSignin.password );
 
             if (passwordIsValid) {
-                const token = await tokenServices.encode( user );
+                const token = await tokenServices.encode( userSignin );
                 
                 res.status(200).send({
                     auth: true,
@@ -48,9 +45,19 @@ exports.signin = async (req, res, next) => {
 // registrarUsuario
 exports.signup = async (req, res, next) => {
     try {
-        req.body.password = bcrypt.hashSync(req.body.password, 10);
-        const user = await db.user.create(req.body);
-        res.status(200).json(user);
+        const user = await users.findOne({ 
+            email: req.body.email 
+        });
+
+        if (user) {
+            res.status(409).send({
+                message: 'Ya existe una cuenta de usuario asociada'
+            })
+        } else {
+            req.body.password = bcrypt.hashSync(req.body.password, 10);
+            const userSignup = await users.create(req.body);
+            res.status(200).json(userSignup);
+        }
     } catch (error) {
         res.status(401).json({
             message: 'Error al registrar el usuario con estos datos' + error
