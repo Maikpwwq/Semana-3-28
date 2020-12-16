@@ -11,8 +11,17 @@ module.exports = {
                 status: 1,
                 createdAt: new Date(),
                 updatedAt: new Date()
-            }            
-    ]);
+            },
+            {
+                name: 'michael',
+                email: 'michael@gmail.com',
+                password: '$2y$10$um0kVrDwgLsMIArGDiVM5eSMbJWwOhqkVFVkWxcU3ABbRN.X42qBW', //boundless
+                rol: "Administrador",
+                status: 1,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            }           
+        ]);
     },
 
     down: async(queryInterface, Sequelize) => {

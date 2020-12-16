@@ -1,4 +1,5 @@
 const express = require('express');
+// const db = require('./models');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const apiRouter = require('./routes/index');
@@ -6,13 +7,15 @@ const cors = require('cors');
 
 // instancia de express actualiza los cambios en el servidor
 const app = express();
-app.use(cors());
-app.use(express.static('public'));
+//app.use(express.static('public'));
+
+app.use(cors()); //{origin: '*', optionsSuccessStatus: 200}
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*"); // "http://localhost:3000"
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+    // res.header("Access-Control-Allow-Methods: GET, POST, PUT, HEAD, OPTIONS");
+    //res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
 
@@ -20,34 +23,23 @@ app.use(function(req, res, next) {
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// API ENDPOINTS
-app.use('/api', apiRouter);
-
+app.use(express.json());
 
 // Ruta inicial que imprime en el navegador
 app.get('/', function(req, res) {
     console.log("Estructura base del proyecto backend");
     res.send("Estructura base del proyecto backend");
-    db.user.findAll().then(users => res.json(users))
 });
 
-/*
-const controller = require('./controllers/AuthController.js');
-const db = require('./models');
-
-app.get('/api/users', (req, res) => {
-    db.user.findAll().then(users => res.json(users))
-});
-app.post('/api/auth/signin', controller.signin);
-*/
+// API ENDPOINTS
+app.use('/api', apiRouter);
 
 const port = 3000;
 app.set('PORT', process.env.PORT || port);
 
 app.listen(app.get('PORT'), () => {
     console.log('Server up');
-    console.log(`Running on http://localhost:${port}`)
+    console.log(`Running on http://localhost:`+ app.get('PORT'))
 });
 
 module.exports = app;
