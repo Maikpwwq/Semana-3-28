@@ -5,7 +5,9 @@ const userController = require('../../controllers/UserController.js');
 const auth = require ('../../middlewares/auth.js');
 
 // ruta: '/api/users/list'
-router.get('/list', auth.verificarAdministrador, userController.listar);
+router.get('/list', userController.listar);
+// ruta: '/api/users/register'
+router.post('/register', auth.verificarAdministrador, userController.add);
 // ruta: '/api/users/update'
 router.put('/update', auth.verificarAdministrador, userController.actualizar);
 // ruta: '/api/users/activate' Cambia status: 1

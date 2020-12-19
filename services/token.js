@@ -56,7 +56,7 @@ module.exports = {
                 return false
             }
         } catch (error) {
-            const newToken = await checkToken (token);
+            const newToken = await checkToken(token);
             return newToken
         };
     },

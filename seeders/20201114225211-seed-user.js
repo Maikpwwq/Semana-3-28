@@ -2,7 +2,7 @@
 
 module.exports = {
     up: async(queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('users', [
+        return queryInterface.bulkInsert('Users', [
             {
                 name: 'carlos',
                 email: 'ejemplo@gmail.com',
@@ -15,7 +15,7 @@ module.exports = {
             {
                 name: 'michael',
                 email: 'michael@gmail.com',
-                password: '$2y$10$um0kVrDwgLsMIArGDiVM5eSMbJWwOhqkVFVkWxcU3ABbRN.X42qBW', //boundless
+                password: '$2y$08$v7KTRsDwhrsEqnBmGq3PpeS9sp/UKsf9CI0lCYA49Ur9xy/ZsqOHe', //reto3
                 rol: "Administrador",
                 status: 1,
                 createdAt: new Date(),
@@ -25,7 +25,7 @@ module.exports = {
     },
 
     down: async(queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('users', null, {});
+        return queryInterface.bulkDelete('Users', null, {});
 
     }
 };

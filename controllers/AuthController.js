@@ -1,20 +1,18 @@
-const db = require('../models');
+const models = require('../models');
 const bcrypt = require('bcryptjs');
 const tokenServices = require('../services/token')
 
 // iniciarSesion
 exports.signin = async (req, res, next) => {
     try {
-        
-        const user = await db.users.findOne({ 
-            where: { email: req.body.email }
-        });
+
+        const user = await models.users.findOne({where: {email: req.body.email}});
 
         if (user) {
             const passwordIsValid = bcrypt.compareSync( req.body.password, user.password );
 
             if (passwordIsValid) {
-                const token = await tokenServices.encode( user );
+                const token = tokenServices.encode( user );
                 
                 res.status(200).send({
                     auth: true,
@@ -47,7 +45,7 @@ exports.signin = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, 10);
-        const user = await db.users.create(req.body);
+        const user = await models.users.create(req.body);
         res.status(200).json(user);
     } catch (error) {
         res.status(401).json({

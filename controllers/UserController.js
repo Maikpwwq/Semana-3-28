@@ -1,11 +1,24 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 
-// listarUsuarios
+// Adicionar un Usuario
+exports.add = async (req, res, next) => {
+    try {    
+        const registro = await db.users.create(req.body);
+        res.status(200).json(registro);
+    } catch (error) {
+        res.status(401).json({
+            message: 'Error al registrar el usuario con estos datos' + error
+        });
+        next(error)
+    }  
+};
+
+// Listar los Usuarios
 exports.listar = async (req, res, next) => {
     try {
         const users = await db.users.findAll();
-        if (registros) {
+        if (users) {
             res.status(200).json(users);
         } else {
             res.status(404).send({
@@ -20,7 +33,7 @@ exports.listar = async (req, res, next) => {
     }  
 };
 
-// actualizarDatos de usuario como cambiarPassword
+// Actualizar los datos del Usuario
 exports.actualizar = async (req, res, next) => {
     try {
         req.body.password = bcrypt.hashSync(req.body.password, 10);
@@ -35,7 +48,7 @@ exports.actualizar = async (req, res, next) => {
         res.status(200).json(user);
     } catch (error) {
         res.status(401).json({
-            message: 'Error -> Error al intentar actualizar los datos del usuario con esta informacion' + error
+            message: 'Error -> Error al actualizar los datos del usuario con esta informacion, intente de nuevo' + error
         });
     }  
 };
